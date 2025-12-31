@@ -44,11 +44,22 @@ This starts the Vite development server with hot module replacement at `http://l
 npm run build
 ```
 
-This will build the React app into the `public` directory. You can then serve it with any static file server, or use:
+This will build the React app into the `public` directory.
+
+### Running the Production Server
 
 ```bash
-npm run serve
+npm start
 ```
+
+This will start an Express server on port 3000 (or the port specified by the `PORT` environment variable).
+
+### Deploying to Railway
+
+1. Build the app: `npm run build`
+2. The `start` script in `package.json` will automatically run the Express server
+3. Railway will detect the `PORT` environment variable automatically
+4. Make sure to set the build command to `npm run build` in Railway settings
 
 ## 📖 Usage
 
