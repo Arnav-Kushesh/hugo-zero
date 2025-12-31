@@ -1,34 +1,40 @@
 import React, { useState, useEffect } from 'react';
 import { useFileSystem } from '../contexts/FileSystemContext';
+import { FiFileText, FiImage } from 'react-icons/fi';
+import SidebarHeader from './SidebarHeader';
 import PostsList from './PostsList';
 import MediaList from './MediaList';
+import { SidebarContainer, SidebarTabs, SidebarTab, SidebarContent } from './Sidebar.styled';
 
 function Sidebar({ sidebarTab, setSidebarTab, currentPost, setCurrentPost }) {
   return (
-    <aside className="sidebar">
-      <div className="sidebar-tabs">
-        <button
-          className={`sidebar-tab ${sidebarTab === 'posts' ? 'active' : ''}`}
+    <SidebarContainer>
+      <SidebarHeader />
+      <SidebarTabs>
+        <SidebarTab
+          active={sidebarTab === 'posts'}
           onClick={() => setSidebarTab('posts')}
         >
-          📝 Posts
-        </button>
-        <button
-          className={`sidebar-tab ${sidebarTab === 'media' ? 'active' : ''}`}
+          <FiFileText size={16} />
+          Posts
+        </SidebarTab>
+        <SidebarTab
+          active={sidebarTab === 'media'}
           onClick={() => setSidebarTab('media')}
         >
-          🖼️ Media
-        </button>
-      </div>
+          <FiImage size={16} />
+          Media
+        </SidebarTab>
+      </SidebarTabs>
 
-      <div className="sidebar-content" style={{ display: sidebarTab === 'posts' ? 'block' : 'none' }}>
+      <SidebarContent style={{ display: sidebarTab === 'posts' ? 'block' : 'none' }}>
         <PostsList currentPost={currentPost} setCurrentPost={setCurrentPost} />
-      </div>
+      </SidebarContent>
 
-      <div className="sidebar-content" style={{ display: sidebarTab === 'media' ? 'block' : 'none' }}>
+      <SidebarContent style={{ display: sidebarTab === 'media' ? 'block' : 'none' }}>
         <MediaList />
-      </div>
-    </aside>
+      </SidebarContent>
+    </SidebarContainer>
   );
 }
 

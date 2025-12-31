@@ -69,18 +69,42 @@ export function stringifyFrontmatter(content, frontmatter) {
         return content;
     }
     
+    // Process frontmatter to fix date formats
+    const processedFrontmatter = { ...frontmatter };
+    for (const [key, value] of Object.entries(processedFrontmatter)) {
+        // Fix date format - convert ISO dates to simple YYYY-MM-DD format
+        if (key === 'date' && value) {
+            try {
+                const date = new Date(value);
+                if (!isNaN(date.getTime())) {
+                    // Format as YYYY-MM-DD
+                    processedFrontmatter[key] = date.toISOString().split('T')[0];
+                }
+            } catch (e) {
+                // If it's already a string in YYYY-MM-DD format, keep it
+                if (typeof value === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(value)) {
+                    processedFrontmatter[key] = value;
+                }
+            }
+        }
+    }
+    
     // Use js-yaml for better YAML formatting
     let yamlContent;
     try {
-        yamlContent = jsyaml.dump(frontmatter, {
+        yamlContent = jsyaml.dump(processedFrontmatter, {
             lineWidth: -1,
             noRefs: true,
             quotingType: '"',
-            forceQuotes: false
+            forceQuotes: false,
+            noCompatMode: true
         }).trim();
+        
+        // Post-process to remove unnecessary quotes from dates
+        yamlContent = yamlContent.replace(/date:\s*"(\d{4}-\d{2}-\d{2})"/g, 'date: $1');
     } catch (error) {
         console.warn('Error stringifying YAML with js-yaml, using fallback:', error);
-        yamlContent = stringifyYamlSimple(frontmatter);
+        yamlContent = stringifyYamlSimple(processedFrontmatter);
     }
     
     return `---\n${yamlContent}\n---\n${content}`;
@@ -107,12 +131,17 @@ function stringifyYamlSimple(frontmatter) {
                 yamlLines.push(`  ${subKey}: ${subValue}`);
             }
         } else {
-            // Escape if needed
-            const stringValue = String(value);
-            if (stringValue.includes(':') || stringValue.includes('\n') || stringValue.includes('"')) {
-                yamlLines.push(`${key}: "${stringValue.replace(/"/g, '\\"')}"`);
+            // Special handling for date fields - use plain format
+            if (key === 'date' && /^\d{4}-\d{2}-\d{2}$/.test(String(value))) {
+                yamlLines.push(`${key}: ${value}`);
             } else {
-                yamlLines.push(`${key}: ${stringValue}`);
+                // Escape if needed
+                const stringValue = String(value);
+                if (stringValue.includes(':') || stringValue.includes('\n') || stringValue.includes('"')) {
+                    yamlLines.push(`${key}: "${stringValue.replace(/"/g, '\\"')}"`);
+                } else {
+                    yamlLines.push(`${key}: ${stringValue}`);
+                }
             }
         }
     }

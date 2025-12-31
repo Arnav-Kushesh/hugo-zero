@@ -1,29 +1,20 @@
-import React, { useState } from "react";
-import { FileSystemProvider } from "./contexts/FileSystemContext";
-import Header from "./components/Header";
-import Sidebar from "./components/Sidebar";
-import Editor from "./components/Editor";
-import "./index.css";
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { FileSystemProvider } from './contexts/FileSystemContext';
+import HomePage from './pages/HomePage';
+import AppPage from './pages/AppPage';
+import './index.css';
 
 function App() {
-  const [currentPost, setCurrentPost] = useState(null);
-
-  const [sidebarTab, setSidebarTab] = useState("posts");
-
   return (
     <FileSystemProvider>
-      <div className="container">
-        <Header />
-        <div className="main-content">
-          <Sidebar
-            sidebarTab={sidebarTab}
-            setSidebarTab={setSidebarTab}
-            currentPost={currentPost}
-            setCurrentPost={setCurrentPost}
-          />
-          <Editor currentPost={currentPost} setCurrentPost={setCurrentPost} />
-        </div>
-      </div>
+      <Router>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/app" element={<AppPage />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </Router>
     </FileSystemProvider>
   );
 }

@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import { ContentTextarea } from './ContentTab.styled';
 
 function ContentTab({ postData, setPostData }) {
   const textareaRef = useRef(null);
@@ -14,15 +15,12 @@ function ContentTab({ postData, setPostData }) {
   };
 
   return (
-    <div className="tab-content active" id="content-tab">
-      <textarea
-        ref={textareaRef}
-        id="contentEditor"
-        className="editor-textarea"
-        placeholder="Write your content here..."
-        onChange={handleChange}
-      />
-    </div>
+    <ContentTextarea
+      ref={textareaRef}
+      id="contentEditor"
+      placeholder="Write your content here..."
+      onChange={handleChange}
+    />
   );
 }
 

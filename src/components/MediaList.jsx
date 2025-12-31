@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useFileSystem } from '../contexts/FileSystemContext';
+import { FiRefreshCw, FiTrash2 } from 'react-icons/fi';
 
 function MediaList() {
   const { staticHandle, contentHandle, hasAccess } = useFileSystem();
@@ -191,7 +192,9 @@ function MediaList() {
     return (
       <div className="sidebar-header">
         <h2>Media Library</h2>
-        <button className="btn-primary" onClick={loadMedia}>🔄</button>
+        <button className="btn-primary" onClick={loadMedia}>
+          <FiRefreshCw size={16} />
+        </button>
       </div>
     );
   }
@@ -200,7 +203,9 @@ function MediaList() {
     <>
       <div className="sidebar-header">
         <h2>Media Library</h2>
-        <button className="btn-primary" onClick={loadMedia} title="Refresh">🔄</button>
+        <button className="btn-primary" onClick={loadMedia} title="Refresh">
+          <FiRefreshCw size={16} />
+        </button>
       </div>
       <div className="media-list">
         {isLoading ? (
@@ -232,7 +237,7 @@ function MediaList() {
                     onClick={() => handleDelete(item.filename)}
                     title="Delete"
                   >
-                    🗑️
+                    <FiTrash2 size={14} />
                   </button>
                 </div>
               </div>

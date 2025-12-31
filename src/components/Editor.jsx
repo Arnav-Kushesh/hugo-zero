@@ -1,9 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { useFileSystem } from '../contexts/FileSystemContext';
 import { parseFrontmatter, stringifyFrontmatter } from '../utils/frontmatter';
+import { FiImage, FiSave } from 'react-icons/fi';
 import ContentTab from './editor/ContentTab';
 import PreviewTab from './editor/PreviewTab';
 import FrontmatterTab from './editor/FrontmatterTab';
+import {
+  EditorArea,
+  EditorContainer,
+  EditorHeader,
+  EditorToolbar,
+  ToolbarButton,
+  SaveButton,
+  EditorContent,
+  EditorTabs,
+  Tab,
+  TabContent
+} from './Editor.styled';
 
 async function uploadImage(hugoRootHandle, staticHandle, contentEditor) {
   if (!hugoRootHandle) {
@@ -153,7 +166,19 @@ function Editor({ currentPost, setCurrentPost }) {
             frontmatter[key] = value;
           }
         } else {
-          frontmatter[key] = input.value;
+          let value = input.value;
+          // Special handling for date fields - ensure YYYY-MM-DD format
+          if (key === 'date' && value) {
+            try {
+              const date = new Date(value);
+              if (!isNaN(date.getTime())) {
+                value = date.toISOString().split('T')[0];
+              }
+            } catch (e) {
+              // Keep original value if parsing fails
+            }
+          }
+          frontmatter[key] = value;
         }
       });
 
@@ -173,28 +198,8 @@ function Editor({ currentPost, setCurrentPost }) {
     }
   }
 
-  if (!hasAccess) {
-    return (
-      <main className="editor-area">
-        <div className="editor-container">
-          <div className="empty-editor">
-            <p>Select a Hugo folder to get started</p>
-          </div>
-        </div>
-      </main>
-    );
-  }
-
-  if (!currentPost) {
-    return (
-      <main className="editor-area">
-        <div className="editor-container">
-          <div className="empty-editor">
-            <p>Select a post to edit or create a new one</p>
-          </div>
-        </div>
-      </main>
-    );
+  if (!hasAccess || !currentPost) {
+    return null;
   }
 
   if (isLoading) {
@@ -214,13 +219,12 @@ function Editor({ currentPost, setCurrentPost }) {
   }
 
   return (
-    <main className="editor-area">
-      <div className="editor-container">
-        <div className="editor-header">
+    <EditorArea>
+      <EditorContainer>
+        <EditorHeader>
           <h2>{postData.frontmatter.title || postData.filename}</h2>
-          <div className="editor-toolbar">
-            <button
-              className="btn-toolbar"
+          <EditorToolbar>
+            <ToolbarButton
               onClick={() => {
                 const contentEditor = document.getElementById('contentEditor');
                 if (contentEditor) {
@@ -228,52 +232,52 @@ function Editor({ currentPost, setCurrentPost }) {
                 }
               }}
             >
-              📷 Upload Image
-            </button>
-          </div>
-        </div>
-        <div className="editor-content">
-          <div className="editor-tabs">
-            <div
-              className={`tab ${activeTab === 'content' ? 'active' : ''}`}
+              <FiImage size={16} />
+              Upload Image
+            </ToolbarButton>
+            <SaveButton
+              onClick={handleSave}
+              disabled={isSaving}
+            >
+              <FiSave size={16} />
+              {isSaving ? 'Saving...' : 'Save Post'}
+            </SaveButton>
+          </EditorToolbar>
+        </EditorHeader>
+        <EditorContent>
+          <EditorTabs>
+            <Tab
+              className={activeTab === 'content' ? 'active' : ''}
               onClick={() => setActiveTab('content')}
             >
               Content
-            </div>
-            <div
-              className={`tab ${activeTab === 'preview' ? 'active' : ''}`}
+            </Tab>
+            <Tab
+              className={activeTab === 'preview' ? 'active' : ''}
               onClick={() => setActiveTab('preview')}
             >
               Preview
-            </div>
-            <div
-              className={`tab ${activeTab === 'frontmatter' ? 'active' : ''}`}
+            </Tab>
+            <Tab
+              className={activeTab === 'frontmatter' ? 'active' : ''}
               onClick={() => setActiveTab('frontmatter')}
             >
               Frontmatter
-            </div>
-          </div>
+            </Tab>
+          </EditorTabs>
           
-          {activeTab === 'content' && (
+          <TabContent active={activeTab === 'content'}>
             <ContentTab postData={postData} setPostData={setPostData} />
-          )}
-          {activeTab === 'preview' && (
+          </TabContent>
+          <TabContent active={activeTab === 'preview'}>
             <PreviewTab postData={postData} />
-          )}
-          {activeTab === 'frontmatter' && (
+          </TabContent>
+          <TabContent active={activeTab === 'frontmatter'}>
             <FrontmatterTab postData={postData} setPostData={setPostData} />
-          )}
-          
-          <button
-            className="save-button"
-            onClick={handleSave}
-            disabled={isSaving}
-          >
-            {isSaving ? 'Saving...' : '💾 Save Post'}
-          </button>
-        </div>
-      </div>
-    </main>
+          </TabContent>
+        </EditorContent>
+      </EditorContainer>
+    </EditorArea>
   );
 }
 

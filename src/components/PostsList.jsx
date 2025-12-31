@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useFileSystem } from '../contexts/FileSystemContext';
 import { parseFrontmatter } from '../utils/frontmatter';
+import { FiPlus } from 'react-icons/fi';
 import NewPostModal from './NewPostModal';
 
 function PostsList({ currentPost, setCurrentPost }) {
@@ -75,7 +76,8 @@ function PostsList({ currentPost, setCurrentPost }) {
       <div className="sidebar-header">
         <h2>Blog Posts</h2>
         <button className="btn-primary" onClick={() => setShowNewPostModal(true)}>
-          + New Post
+          <FiPlus size={16} />
+          New Post
         </button>
       </div>
     );
@@ -86,7 +88,8 @@ function PostsList({ currentPost, setCurrentPost }) {
       <div className="sidebar-header">
         <h2>Blog Posts</h2>
         <button className="btn-primary" onClick={() => setShowNewPostModal(true)}>
-          + New Post
+          <FiPlus size={16} />
+          New Post
         </button>
       </div>
       <div className="posts-list">

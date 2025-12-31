@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { marked } from 'marked';
+import { PreviewModeSelector, PreviewContainer, PreviewIframe } from './PreviewTab.styled';
 
 function PreviewTab({ postData }) {
   const [previewMode, setPreviewMode] = useState('rendered');
@@ -59,22 +60,37 @@ function PreviewTab({ postData }) {
     const liveFrame = document.getElementById('livePreviewFrame');
     if (!liveFrame || !postData) return;
     
-    const filename = postData.filename.replace('.md', '').replace(/\\/g, '/');
+    // Get the filename and normalize path separators
+    const filename = postData.filename.replace(/\\/g, '/');
     const pathParts = filename.split('/');
-    const slug = pathParts[pathParts.length - 1];
+    const slug = pathParts[pathParts.length - 1].replace('.md', '');
     
-    const possibleUrls = [
-      `${hugoServerUrl}/${slug}/`,
-      `${hugoServerUrl}/posts/${slug}/`,
-      `${hugoServerUrl}/${filename.replace('.md', '')}/`
-    ];
+    // Extract the directory path (everything except the filename)
+    // e.g., "posts/my-post.md" -> "posts", "blog/2024/post.md" -> "blog/2024"
+    const directoryPath = pathParts.length > 1 
+      ? pathParts.slice(0, -1).join('/')
+      : '';
     
-    liveFrame.src = possibleUrls[0];
+    // Construct the URL based on the actual file structure
+    // Hugo typically uses the directory structure from content/ as the URL path
+    let previewUrl;
+    
+    if (directoryPath) {
+      // If file is in a subdirectory (e.g., content/posts/my-post.md)
+      // URL will be: baseUrl/posts/my-post/
+      previewUrl = `${hugoServerUrl}/${directoryPath}/${slug}/`;
+    } else {
+      // If file is directly in content/ (e.g., content/my-post.md)
+      // Try common patterns
+      previewUrl = `${hugoServerUrl}/${slug}/`;
+    }
+    
+    liveFrame.src = previewUrl;
   }
 
   return (
-    <div className="tab-content active" id="preview-tab">
-      <div className="preview-mode-selector">
+    <>
+      <PreviewModeSelector>
         <label>
           <input
             type="radio"
@@ -95,21 +111,19 @@ function PreviewTab({ postData }) {
           />
           Live Server
         </label>
-      </div>
+      </PreviewModeSelector>
       {previewMode === 'rendered' ? (
-        <div
-          className="preview-container"
+        <PreviewContainer
           id="previewContainer"
           dangerouslySetInnerHTML={{ __html: renderPreview() }}
         />
       ) : (
-        <iframe
+        <PreviewIframe
           id="livePreviewFrame"
-          className="preview-iframe"
           title="Live Preview"
         />
       )}
-    </div>
+    </>
   );
 }
 

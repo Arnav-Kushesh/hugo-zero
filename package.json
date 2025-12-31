@@ -1,7 +1,7 @@
 {
-  "name": "hugo-simple-cms",
+  "name": "hugo-zero",
   "version": "1.0.0",
-  "description": "A simple browser-based CMS for Hugo blogs",
+  "description": "Hugo CMS with Zero Setup - just select the hugo folder and start working",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -17,12 +17,18 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "js-yaml": "^4.1.0",
+    "marked": "^11.1.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "js-yaml": "^4.1.0",
-    "marked": "^11.1.1"
+    "react-icons": "^5.5.0",
+    "react-router-dom": "^7.11.0"
   },
   "devDependencies": {
+    "@babel/preset-react": "^7.28.5",
+    "@emotion/babel-plugin": "^11.13.5",
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.0",
     "@vitejs/plugin-react": "^4.2.0",

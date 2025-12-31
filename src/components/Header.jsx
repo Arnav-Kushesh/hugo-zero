@@ -40,7 +40,7 @@ function Header() {
 
   return (
     <header>
-      <h1>📝 Hugo Simple CMS</h1>
+      <h1>Hugo Zero</h1>
       <div className="header-controls">
         <div className="folder-selector">
           <button 
