@@ -225,7 +225,24 @@ async function scanContentDirectory(dir, basePath = '') {
   return posts;
 }
 
+// Catch-all handler: serve React app for all non-API routes
+app.get('*', (req, res) => {
+  // Don't serve React app for API routes
+  if (req.path.startsWith('/api')) {
+    return res.status(404).json({ error: 'Not found' });
+  }
+  
+  // Serve index.html for React app (SPA routing)
+  const indexPath = path.join(__dirname, 'public', 'index.html');
+  res.sendFile(indexPath, (err) => {
+    if (err) {
+      res.status(500).send('Error loading application');
+    }
+  });
+});
+
 app.listen(PORT, () => {
   console.log(`Hugo Simple CMS server running at http://localhost:${PORT}`);
   console.log('Open your browser and navigate to http://localhost:3000');
+  console.log('\nFor development with hot reload, run: npm run dev:client');
 });
