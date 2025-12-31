@@ -1,7 +1,7 @@
 {
   "name": "hugo-zero",
   "version": "1.0.0",
-  "description": "Hugo CMS with Zero Setup - just select the hugo folder and start working",
+  "description": "Zero Setup Hugo CMS - just select the hugo folder and start working",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
