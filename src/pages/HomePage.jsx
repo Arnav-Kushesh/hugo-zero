@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useFileSystem } from '../contexts/FileSystemContext';
-import { FiFolder, FiEdit3, FiImage, FiEye } from 'react-icons/fi';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useFileSystem } from "../contexts/FileSystemContext";
+import { FiFolder, FiEdit3, FiImage, FiEye } from "react-icons/fi";
 
 function HomePage() {
   const navigate = useNavigate();
@@ -11,7 +11,9 @@ function HomePage() {
 
   const handleSelectFolder = async () => {
     if (!window.showDirectoryPicker) {
-      setError('File System Access API not supported. Please use Chrome, Edge, or another Chromium-based browser.');
+      setError(
+        "File System Access API not supported. Please use Chrome, Edge, or another Chromium-based browser."
+      );
       return;
     }
 
@@ -21,11 +23,11 @@ function HomePage() {
     try {
       const success = await selectFolder();
       if (success) {
-        navigate('/app');
+        navigate("/app");
       }
     } catch (err) {
-      if (err.name !== 'AbortError') {
-        setError(err.message || 'Failed to select folder');
+      if (err.name !== "AbortError") {
+        setError(err.message || "Failed to select folder");
       }
     } finally {
       setIsSelecting(false);
@@ -37,9 +39,11 @@ function HomePage() {
       <div className="homepage-container">
         <div className="homepage-content">
           <div className="logo-section">
-            <h1 className="logo">Hugo Zero</h1>
-            <p className="tagline">Hugo CMS with Zero Setup</p>
-            <p className="subtitle">Just select your Hugo folder and start working</p>
+            <h1 className="logo">HUGO ZERO</h1>
+            <p className="tagline">Zero Setup Hugo CMS </p>
+            <p className="subtitle">
+              Just select your Hugo folder and start working
+            </p>
           </div>
 
           <div className="features-section">
@@ -48,37 +52,45 @@ function HomePage() {
                 <FiFolder size={40} />
               </div>
               <h3>Zero Configuration</h3>
-              <p>No setup required. Just point to your Hugo folder and you're ready to go.</p>
+              <p>
+                No setup required. Just point to your Hugo folder and you're
+                ready to go.
+              </p>
             </div>
             <div className="feature-card">
               <div className="feature-icon">
                 <FiEdit3 size={40} />
               </div>
               <h3>Edit in Browser</h3>
-              <p>Edit your blog posts directly in the browser with a beautiful interface.</p>
+              <p>
+                Edit your blog posts directly in the browser with a beautiful
+                interface.
+              </p>
             </div>
             <div className="feature-card">
               <div className="feature-icon">
                 <FiImage size={40} />
               </div>
               <h3>Media Management</h3>
-              <p>Upload images, manage your media library, and track unused assets.</p>
+              <p>
+                Upload images, manage your media library, and track unused
+                assets.
+              </p>
             </div>
             <div className="feature-card">
               <div className="feature-icon">
                 <FiEye size={40} />
               </div>
               <h3>Live Preview</h3>
-              <p>Preview your posts in real-time or connect to your Hugo dev server.</p>
+              <p>
+                Preview your posts in real-time or connect to your Hugo dev
+                server.
+              </p>
             </div>
           </div>
 
           <div className="cta-section">
-            {error && (
-              <div className="error-message">
-                {error}
-              </div>
-            )}
+            {error && <div className="error-message">{error}</div>}
             <button
               className="glow-button"
               onClick={handleSelectFolder}
@@ -96,7 +108,9 @@ function HomePage() {
                 </>
               )}
             </button>
-            <p className="cta-hint">Choose your Hugo site root folder to get started</p>
+            <p className="cta-hint">
+              Choose your Hugo site root folder to get started
+            </p>
           </div>
         </div>
       </div>

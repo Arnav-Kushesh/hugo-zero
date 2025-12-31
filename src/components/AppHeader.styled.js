@@ -1,4 +1,4 @@
-import styled from '@emotion/styled';
+import styled from "@emotion/styled";
 
 export const AppHeaderContainer = styled.header`
   background: rgba(255, 255, 255, 0.05);
@@ -20,10 +20,15 @@ export const AppHeaderContent = styled.div`
 `;
 
 export const AppHeaderLogo = styled.h1`
-  font-family: 'Pixelify Sans', sans-serif;
+  font-family: "Pixelify Sans", sans-serif;
+  font-family: "Doto", sans-serif;
   font-size: 24px;
   font-weight: 700;
-  background: linear-gradient(135deg, #ffffff 0%, rgba(255, 255, 255, 0.8) 100%);
+  background: linear-gradient(
+    135deg,
+    #ffffff 0%,
+    rgba(255, 255, 255, 0.8) 100%
+  );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -45,7 +50,7 @@ export const GithubButton = styled.a`
 
   &:hover {
     background: rgba(255, 255, 255, 0.1);
-    border-color: #007AFF;
+    border-color: #007aff;
     transform: translateY(-1px);
   }
 `;

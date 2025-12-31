@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import { useFileSystem } from '../contexts/FileSystemContext';
+import React, { useState, useEffect } from "react";
+import { useFileSystem } from "../contexts/FileSystemContext";
 
 function Header() {
   const { currentFolderName, selectFolder, hasAccess } = useFileSystem();
-  const [hugoServerUrl, setHugoServerUrl] = useState('http://localhost:1313');
+  const [hugoServerUrl, setHugoServerUrl] = useState("http://localhost:1313");
   const [message, setMessage] = useState(null);
   const [messageType, setMessageType] = useState(null);
 
   useEffect(() => {
-    const savedUrl = localStorage.getItem('hugoServerUrl');
+    const savedUrl = localStorage.getItem("hugoServerUrl");
     if (savedUrl) {
       setHugoServerUrl(savedUrl);
     }
@@ -17,16 +17,16 @@ function Header() {
   const handleSelectFolder = async () => {
     try {
       await selectFolder();
-      showMessage('Folder selected successfully!', 'success');
+      showMessage("Folder selected successfully!", "success");
     } catch (error) {
-      showMessage(error.message, 'error');
+      showMessage(error.message, "error");
     }
   };
 
   const handleUrlChange = (e) => {
     const url = e.target.value.trim();
     setHugoServerUrl(url);
-    localStorage.setItem('hugoServerUrl', url);
+    localStorage.setItem("hugoServerUrl", url);
   };
 
   const showMessage = (msg, type) => {
@@ -40,19 +40,18 @@ function Header() {
 
   return (
     <header>
-      <h1>Hugo Zero</h1>
+      <h1>HUGO ZERO</h1>
       <div className="header-controls">
         <div className="folder-selector">
-          <button 
-            id="selectFolderBtn" 
+          <button
+            id="selectFolderBtn"
             className="btn-primary"
             onClick={handleSelectFolder}
             disabled={!window.showDirectoryPicker}
           >
-            {!window.showDirectoryPicker 
-              ? '⚠️ File System Access API not supported'
-              : '📁 Select Hugo Folder'
-            }
+            {!window.showDirectoryPicker
+              ? "⚠️ File System Access API not supported"
+              : "📁 Select Hugo Folder"}
           </button>
         </div>
         <div className="server-url-input">
@@ -66,15 +65,17 @@ function Header() {
           />
         </div>
       </div>
-      <div id="currentFolder" className={`current-folder ${hasAccess ? 'active' : ''}`}>
-        {currentFolderName ? `Current folder: ${currentFolderName}` : ''}
+      <div
+        id="currentFolder"
+        className={`current-folder ${hasAccess ? "active" : ""}`}
+      >
+        {currentFolderName ? `Current folder: ${currentFolderName}` : ""}
       </div>
-      {message && (
-        <div className={messageType}>{message}</div>
-      )}
+      {message && <div className={messageType}>{message}</div>}
       {!window.showDirectoryPicker && (
         <p className="error">
-          This browser does not support the File System Access API. Please use Chrome, Edge, or another Chromium-based browser.
+          This browser does not support the File System Access API. Please use
+          Chrome, Edge, or another Chromium-based browser.
         </p>
       )}
     </header>

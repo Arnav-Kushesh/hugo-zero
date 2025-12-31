@@ -1,4 +1,4 @@
-import styled from '@emotion/styled';
+import styled from "@emotion/styled";
 
 export const SidebarHeaderSection = styled.div`
   padding: 20px;
@@ -8,12 +8,17 @@ export const SidebarHeaderSection = styled.div`
 
 export const SidebarHeaderTitle = styled.div`
   h2 {
-    font-family: 'Pixelify Sans', sans-serif;
+    font-family: "Pixelify Sans", sans-serif;
+    font-family: "Doto", sans-serif;
     font-size: 20px;
     font-weight: 700;
     margin-bottom: 16px;
     color: #ffffff;
-    background: linear-gradient(135deg, #ffffff 0%, rgba(255, 255, 255, 0.8) 100%);
+    background: linear-gradient(
+      135deg,
+      #ffffff 0%,
+      rgba(255, 255, 255, 0.8) 100%
+    );
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -35,7 +40,7 @@ export const ServerUrlInput = styled.div`
     display: flex;
     align-items: center;
     gap: 8px;
-    font-size: 13px;
+    font-size: 11px;
     color: rgba(255, 255, 255, 0.7);
     font-weight: 500;
   }
@@ -47,13 +52,13 @@ export const ServerUrlInput = styled.div`
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 10px;
     font-size: 13px;
-    font-family: 'SF Mono', Monaco, monospace;
+    font-family: "SF Mono", Monaco, monospace;
     color: #ffffff;
     transition: all 0.2s;
 
     &:focus {
       outline: none;
-      border-color: #007AFF;
+      border-color: #007aff;
       background: rgba(255, 255, 255, 0.08);
     }
   }
@@ -69,7 +74,7 @@ export const CurrentFolder = styled.div`
   border: 1px solid rgba(0, 122, 255, 0.2);
   border-radius: 10px;
   font-size: 12px;
-  color: #007AFF;
+  color: #007aff;
   display: flex;
   align-items: center;
   gap: 8px;
